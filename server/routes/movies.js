@@ -14,15 +14,15 @@ router.get('/', (request, response) => {
 /*
   Populate Database
 */
-router.post('/populate', async (req,res) => {
-  const movies = await imdb(DENZEL_IMDB_ID)
+router.post('/populate/:id', async (req,res) => {
+  const movies = await imdb(req.params.id)
   console.log(`🍿 ${movies.length} movies found.`);
 
-  for (const m of movies) {
-    const movie = new Movie(m)
-    const savedMovie = await movie.save();
-    console.log(savedMovie)
-  }
+  // for (const m of movies) {
+  //   const movie = new Movie(m)
+  //   const savedMovie = await movie.save();
+  //   console.log(savedMovie)
+  // }
 });
 
 
