@@ -56,5 +56,11 @@ router.get('/:id', async (req, res) => {
   
 });
 
+/*
+  Allows search query
+*/
+router.get('/search', async (req, res) => {
+  res.send("OK")
+});
 
 module.exports = router;
