@@ -4,6 +4,22 @@ const imdb = require('../imdb')
 const Movie = require('../models/Movie')
 //const DENZEL_IMDB_ID = 'nm0000243';
 
+
+/*
+  Populate Database
+*/
+router.post('/populate/:id', async (req,res) => {
+  const movies = await imdb(req.params.id)
+  console.log(`🍿 ${movies.length} movies found.`);
+
+  for (const m of movies) {
+    const movie = new Movie(m)
+    const savedMovie = await movie.save();
+    console.log(savedMovie)
+  }
+});
+
+
 /*
   Get random must watch movie 
 */
@@ -26,19 +42,18 @@ router.get('/', async (req, res) => {
 });
 
 
-
 /*
-  Populate Database
+  Get specific movie by ID
 */
-router.post('/populate/:id', async (req,res) => {
-  const movies = await imdb(req.params.id)
-  console.log(`🍿 ${movies.length} movies found.`);
-
-  for (const m of movies) {
-    const movie = new Movie(m)
-    const savedMovie = await movie.save();
-    console.log(savedMovie)
+router.get('/:id', async (req, res) => {
+  try {
+    const movie = await Movie.find({id: req.params.id});
+    res.send(movie);
+  } 
+  catch(err) {
+    res.json( { message: err } )
   }
+  
 });
 
 
